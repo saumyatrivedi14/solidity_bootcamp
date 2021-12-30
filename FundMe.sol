@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
-// Interfaces compile down to ABI (Application Binary Interface
-// The ABI tells solidity and ither programming languages how 
-// it can interact with another contract
-// below "AggregatorV3Interface" is a Chainlink interface which compile down to an ABI.
-// Note => Anytime you want to interact with an already deployed smart contract you will need an ABI
+/*
+*   Interfaces compile down to ABI (Application Binary Interface).
+*   The ABI tells solidity and ither programming languages how 
+*   it can interact with another contract.
+*   Below "AggregatorV3Interface" is a Chainlink interface which compile down to an ABI.
+*   Note: Anytime you want to interact with an already deployed smart contract you will need an ABI
+*/
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
 // for version below 0.8 comipler for Solidity
@@ -48,15 +50,18 @@ contract FundMe {
 
     function getPrice() public view returns (uint256) {
         AggregatorV3Interface priceFeed = AggregatorV3Interface(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e);
-        /* we are getting a Tuple here when calling latestRoundData()
-        ref link - https://docs.chain.link/docs/price-feeds-api-reference/
-            roundId: The round ID.
-            answer: The price.
-            startedAt: Timestamp of when the round started.
-            updatedAt: Timestamp of when the round was updated.
-            answeredInRound: The round ID of the round in which the answer was computed.
-        */
+    /* 
+    *   A Tuple is returned when calling latestRoundData()
+    *   ref link - https://docs.chain.link/docs/price-feeds-api-reference/
+    *   Tuple element details:
+    *       roundId: The round ID.
+    *       answer: The price.
+    *       startedAt: Timestamp of when the round started.
+    *       updatedAt: Timestamp of when the round was updated.
+    *       answeredInRound: The round ID of the round in which the answer was computed.
+    */
         (, int256 answer,,,) = priceFeed.latestRoundData();
+
         // its a good practice to keep the value in ETH denominations
         // 1 ETH = 10^18 Wei
         // 1 ETH = 10^9 Gwei
@@ -71,8 +76,8 @@ contract FundMe {
     }
 
     /*
-        Modifiers => a modifier is used to change the 
-        behavior of a function in a declarative way
+    *   Modifiers => a modifier is used to change the 
+    *   behavior of a function in a declarative way
     */
     modifier onlyOwner {
         require(msg.sender == owner);
@@ -82,11 +87,12 @@ contract FundMe {
     // before this function gets called we will run the modifier to check the requirement
     // by defining the modifier in the function definition
     function withdraw() payable onlyOwner public {
-        // transfer() is used to send ETH from one address to another
-        // "this" is the keyword in Solidity for your current contract (in this case FundMe)
-        // address(this) returns the address of your current contract
-        // balance is an attribute of the contract.
-        
+    /*  
+    *   transfer() is used to send ETH from one address to another
+    *   "this" is the keyword in Solidity for your current contract (in this case FundMe)
+    *   address(this) returns the address of your current contract
+    *   balance is an attribute of the contract.
+    */
         //require(msg.sender == owner);
         payable(msg.sender).transfer(address(this).balance);
 

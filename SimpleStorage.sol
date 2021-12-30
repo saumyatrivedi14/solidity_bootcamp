@@ -21,18 +21,22 @@ contract SimpleStorage {
         favoriteNumber = _favoriteNumber;
     }
 
-    // view & pure identifiers
-    // (non-state changing functions hence no transaction is required)
-    // view -> it is used to read off the blockchain.
-    // pure -> it is used for purely mathematical calc.
-    // Note: "public" variables are automotically assigned as "view" functions
+    /*
+    *   View & Pure identifiers
+    *   these are non-state changing functions hence no transaction is required.
+    *   view -> it is used to read off the blockchain.
+    *   pure -> it is used for purely mathematical calc.
+    *   Note: "public" variables are automotically assigned as "view" functions
+    */
     function retrieve() public view returns(uint256) {
         return favoriteNumber;
     }
 
-    // memory & storage identifiers
-    // memory -> memory will only be stored during execution of the function and will delete after execution
-    // storage -> storage will persist the value after function execution
+    /*
+    *   Memory & Storage identifiers
+    *   memory -> memory will only be stored during execution of the function and will delete after execution
+    *   storage -> storage will persist the value after function execution
+    */
     function addPerson(string memory _name, uint256 _favoriteNumber) public {
         // add to array
         people.push(People(_favoriteNumber, _name));
