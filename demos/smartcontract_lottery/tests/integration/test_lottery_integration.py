@@ -1,12 +1,10 @@
-from brownie import Lottery, accounts, config, network, exceptions
+from brownie import network
 from scripts.deploy_lottery import deploy_lottery
 from scripts.utilities import (
     LOCAL_BLOCKCHAIN_ENV,
     get_account,
     fund_with_link,
-    get_contract,
 )
-from web3 import Web3
 import pytest
 import time
 
@@ -25,6 +23,6 @@ def test_can_pick_winner():
     fund_with_link(lottery)
     lottery.endLottery({"from": account})
     # Here, we re working with actual Testnet and Chainlink, so no mocking is required.
-    time.sleep(60)
+    time.sleep(180)
     assert lottery.recentWinner() == account
     assert lottery.balance() == 0
