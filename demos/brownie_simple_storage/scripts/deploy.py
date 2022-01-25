@@ -12,7 +12,7 @@ def get_account():
 
 def deploy_simple_storage():
     account = get_account()
-    simple_storage = SimpleStorage.deploy({"from": account})
+    simple_storage = SimpleStorage.deploy({"from": account}, publish_source=True)
     stored_value = simple_storage.retrieve()
     print(stored_value)
     txn = simple_storage.store(15, {"from": account})
